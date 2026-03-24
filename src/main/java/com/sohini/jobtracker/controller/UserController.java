@@ -2,11 +2,8 @@ package com.sohini.jobtracker.controller;
 
 import com.sohini.jobtracker.model.User;
 import com.sohini.jobtracker.service.UserService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/users")
@@ -28,5 +25,11 @@ public class UserController {
     @PostMapping("/login")
     public User login(@RequestBody User user) {
         return userService.loginUser(user.getEmail(), user.getPassword());
+    }
+
+    // 🆕 UPDATE PROFILE
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userService.updateUser(id, user);
     }
 }

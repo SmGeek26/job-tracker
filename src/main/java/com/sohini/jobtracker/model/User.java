@@ -1,6 +1,7 @@
 package com.sohini.jobtracker.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -14,31 +15,81 @@ public class User {
     @NotBlank
     private String name;
 
+    @Email
     @Column(unique = true)
-    @NotBlank
     private String email;
 
     @NotBlank
     private String password;
 
-    // Constructors
+    // 🆕 NEW FIELDS
+    private String address;
+    private String phone;
+    private String profilePhoto;
+    private String cv;
+
+    // ✅ Constructors
     public User() {}
 
-    public User(String name, String email, String password) {
+    // ✅ Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
+    public String getAddress() {
+        return address;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public String getCv() {
+        return cv;
+    }
+
+    public void setCv(String cv) {
+        this.cv = cv;
+    }
 }
