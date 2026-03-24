@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN chmod +x gradlew
 
 RUN ./gradlew build
 
-CMD ["java", "-jar", "build/libs/jobtracker-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "build/libs/*.jar"]
