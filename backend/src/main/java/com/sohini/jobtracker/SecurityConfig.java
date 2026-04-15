@@ -22,7 +22,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {}) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/**").permitAll() 
+                .requestMatchers(
+                "/users/**",
+                "/manifest.json",
+                "/favicon.ico",
+                "/static/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session ->
