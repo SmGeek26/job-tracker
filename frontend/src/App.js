@@ -27,9 +27,10 @@ function App() {
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState("");
 
+  // ✅ LOGIN FIXED
   const login = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/users/login`, {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -51,29 +52,35 @@ function App() {
     }
   };
 
+  // ✅ REGISTER FIXED
   const register = async () => {
-    const res = await fetch(`${BASE_URL}/users/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: registerName,
-        email: registerEmail,
-        password: registerPassword,
-      }),
-    });
+    try {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: registerName,
+          email: registerEmail,
+          password: registerPassword,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      setUser(data);
-      setError("");
-    } else {
-      setError(data.message || "Registration failed");
+      if (res.ok) {
+        setUser(data);
+        setError("");
+      } else {
+        setError(data.message || "Registration failed");
+      }
+    } catch {
+      setError("Server error. Please try again.");
     }
   };
 
   const logout = () => setUser(null);
 
+  // (Optional improvement later: add JWT token here)
   const addJob = async () => {
     await fetch(`${BASE_URL}/jobs/user/${user.id}`, {
       method: "POST",
@@ -122,17 +129,17 @@ function App() {
 
           {page === "dashboard" && (
             <Dashboard
-                user={user}
-                company={company}
-                role={role}
-                status={status}
-                date={date}
-                setCompany={setCompany}
-                setRole={setRole}
-                setStatus={setStatus}
-                setDate={setDate}
-                addJob={addJob}
-              />
+              user={user}
+              company={company}
+              role={role}
+              status={status}
+              date={date}
+              setCompany={setCompany}
+              setRole={setRole}
+              setStatus={setStatus}
+              setDate={setDate}
+              addJob={addJob}
+            />
           )}
 
           {page === "add" && (

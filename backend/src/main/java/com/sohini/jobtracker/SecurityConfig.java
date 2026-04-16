@@ -25,13 +25,12 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // ✅ Allow login/register APIs
-                .requestMatchers("/users/**").permitAll()
+                // ✅ FIXED: correct endpoint
+                .requestMatchers("/auth/**").permitAll()
 
-                // ✅ VERY IMPORTANT: allow preflight requests
+                // ✅ Allow preflight requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // everything else secured
                 .anyRequest().authenticated()
             )
 
@@ -50,14 +49,14 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // ✅ FULL CORS CONFIG (this is what actually fixes your issue)
+    // ✅ CORS CONFIG (FINAL)
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
 
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
 
         config.setAllowedOrigins(java.util.List.of(
-                "https://job-tracker-5u2ttw5ov-smgeek26s-projects.vercel.app" // 👈 YOUR VERCEL URL
+                "https://job-tracker-5u2ttw5ov-smgeek26s-projects.vercel.app"
         ));
 
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
