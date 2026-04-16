@@ -55,8 +55,8 @@ public class SecurityConfig {
 
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
 
-        config.setAllowedOrigins(java.util.List.of(
-                "https://job-tracker-5u2ttw5ov-smgeek26s-projects.vercel.app"
+        config.setAllowedOriginPatterns(java.util.List.of(
+         "https://*.vercel.app"
         ));
 
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
