@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth") // ✅ CHANGED
+@RequestMapping("/auth")
 public class UserController {
 
     private final UserService userService;
@@ -26,13 +26,13 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ REGISTER
+    // REGISTER
     @PostMapping("/register")
     public User register(@Valid @RequestBody User user) {
         return userService.registerUser(user);
     }
 
-    // ✅ LOGIN (JWT ADDED)
+    // LOGIN
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
 
@@ -46,11 +46,5 @@ public class UserController {
         String token = jwtUtil.generateToken(user.getEmail());
 
         return ResponseEntity.ok(Map.of("token", token));
-    }
-
-    // 🆕 UPDATE PROFILE (SECURED NOW)
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,16 +23,11 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> {}) // ✅ Enable CORS
+            .cors(cors -> {}) // enable CORS
 
             .authorizeHttpRequests(auth -> auth
-
-                // ✅ FIXED: correct endpoint
                 .requestMatchers("/auth/**").permitAll()
-
-                // ✅ Allow preflight requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
                 .anyRequest().authenticated()
             )
 
@@ -49,14 +46,20 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // ✅ CORS CONFIG (FINAL)
+    // ✅ Password encoder
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // ✅ CORS FIX (important)
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
 
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
 
         config.setAllowedOriginPatterns(java.util.List.of(
-         "https://*.vercel.app"
+                "https://*.vercel.app"
         ));
 
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
